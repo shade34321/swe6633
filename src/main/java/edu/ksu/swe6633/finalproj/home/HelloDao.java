@@ -4,5 +4,5 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface HelloDao {
-    List<HelloWorldMessage> test();
+    HelloWorldMessage test();
 }

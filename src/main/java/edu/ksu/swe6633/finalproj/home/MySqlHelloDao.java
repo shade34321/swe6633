@@ -1,6 +1,8 @@
 package edu.ksu.swe6633.finalproj.home;
 
 
+import edu.ksu.swe6633.finalproj.database.RowMapper;
+import edu.ksu.swe6633.finalproj.database.SqlQuery;
 import edu.ksu.swe6633.finalproj.config.database.DbSchema;
 
 import javax.inject.Inject;
@@ -8,7 +10,6 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlHelloDao implements HelloDao {
@@ -23,35 +24,23 @@ public class MySqlHelloDao implements HelloDao {
     }
 
     @Override
-    public List<HelloWorldMessage> test() {
+    public HelloWorldMessage test() {
         Statement statement = null;
-        String query =
+
+        SqlQuery query = new SqlQuery(
             "select hw.helloId," +
             "       hw.message" +
-            "  from #schema#.hello_world hw";
+            "  from #schema#.hello_world hw"
+            .replace("#schema#", dbSchema)  //The schema we're using is provided by the annotation above, we replace it here so our query will run.
+        );
 
-        List<HelloWorldMessage> results = new ArrayList<>();
-
-        try {
-            statement = dataSource.getConnection().createStatement();
-            //The schema we're using is provided by the annotation above, we replace it here so our query will run.
-            ResultSet rs = statement.executeQuery(query.replace("#schema#", dbSchema));
-            while (rs.next()) {
-                results.add(new HelloWorldMessage(rs.getInt("helloId"), rs.getString("message")));
+        return query.queryForObject(dataSource, new RowMapper<HelloWorldMessage>() {
+            @Override
+            public HelloWorldMessage mapRow(ResultSet rs) throws SQLException {
+                String msg = rs.getString("message");
+                int id = rs.getInt("helloId");
+                return new HelloWorldMessage(id, msg);
             }
-            return results;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        } finally {
-            //Ew, sorry
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
+        });
     }
 }

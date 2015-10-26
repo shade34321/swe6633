@@ -42,6 +42,6 @@
     </listener>
     
     <welcome-file-list>
-        <welcome-file>api/home</welcome-file>
+        <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 </web-app>

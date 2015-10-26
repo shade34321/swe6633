@@ -12,12 +12,9 @@ public class DefaultHelloService implements HelloService {
     public DefaultHelloService(HelloDao dao) {
         this.dao = dao;
     }
+
     public String hello() {
-        List<HelloWorldMessage> messages = dao.test();
-        String re = "";
-        for (HelloWorldMessage message : messages) {
-            re += "Hello, " + message.getMessage() + "\n";
-        }
-        return re;
+        HelloWorldMessage message = dao.test();
+        return message.getMessage();
     }
 }
