@@ -4,6 +4,8 @@ import javax.inject.Inject;
 
 import edu.ksu.swe6633.finalproj.config.jackson.Jackson2Feature;
 import edu.ksu.swe6633.finalproj.home.HomeWeb;
+import edu.ksu.swe6633.finalproj.member.MemberWeb;
+import edu.ksu.swe6633.finalproj.project.ProjectWeb;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -28,6 +30,8 @@ public class DefaultApplication extends ResourceConfig {
 
         //Register Jersey modules
         register(HomeWeb.class);
+        register(ProjectWeb.class);
+        register(MemberWeb.class);
         //Register Exception Mappers
 
 

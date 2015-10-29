@@ -9,6 +9,7 @@ import com.google.inject.servlet.ServletModule;
 import edu.ksu.swe6633.finalproj.config.database.DataSourceModule;
 import edu.ksu.swe6633.finalproj.config.shutdown.*;
 import edu.ksu.swe6633.finalproj.home.HomeGuiceModule;
+import edu.ksu.swe6633.finalproj.member.MemberGuiceModule;
 
 import javax.inject.Singleton;
 
@@ -21,6 +22,7 @@ public class DefaultGuiceServletConfig extends GuiceServletContextListener {
                 //Add modules here
                 new DataSourceModule(),
                 new HomeGuiceModule(),
+                new MemberGuiceModule(),
                 new ServletModule()
         );
         return injector;

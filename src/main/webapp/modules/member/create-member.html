@@ -1,0 +1,18 @@
+<h2>Create New Team Member</h2>
+
+<div class="first-name">
+    <label for="first-name">First Name</label>
+    <input id="first-name" type="text" ng-model="member.firstName"/>
+</div>
+
+<div class="last-name">
+    <label for="last-name">Last Name</label>
+    <input id="last-name" type="text" ng-model="member.lastName"/>
+</div>
+
+<div class="is-manager">
+    <label for="is-manager">Is Manager?</label>
+    <input id="is-manager" type="checkbox" ng-model="isManager"/>
+</div>
+
+<a href="#/create-project" class="btn" ng-click="createMember()">Create</a>

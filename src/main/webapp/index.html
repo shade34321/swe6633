@@ -1,15 +1,44 @@
 <html>
 <head>
     <title>Software Project Tracking</title>
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap-3.3.5-dist/css/bootstrap.min.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="css/home.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="lib/angular-toastr/toaster.min.css" media="screen" />
+
+    <script src="lib/angular-1.4.7/angular.min.js" type="text/javascript"></script>
+    <script src="lib/angular-1.4.7/angular-route.min.js" type="text/javascript"></script>
+    <script src="lib/angular-1.4.7/angular-resource.min.js" type="text/javascript"></script>
+    <script src="lib/angular-1.4.7/angular-animate.min.js" type="text/javascript"></script>
+    <script src="lib/angular-toastr/toaster.min.js" type="text/javascript"></script>
+
+    <script src="lib/ui-bootstrap/ui-bootstrap-tpls-0.14.2.min.js" type="text/javascript"></script>
+
+    <script src="lib/jquery/jquery-1.11.3.min.js" type="text/javascript"></script>
+
+    <script src="modules/home/module.js" type="text/javascript"></script>
+    <script src="modules/project/module.js" type="text/javascript"></script>
+    <script src="modules/member/module.js" type="text/javascript"></script>
+
+    <script src="modules/home/HomeController.js" type="text/javascript"></script>
+    <script src="modules/project/CreateProjectController.js" type="text/javascript"></script>
+    <script src="modules/member/CreateMemberController.js" type="text/javascript"></script>
+
+    <script src="modules/app.js" type="text/javascript"></script>
+
 </head>
 
-<body>
-    <script src="lib/angular-1.4.7/angular.min.js" type="text/javascript"></script>
-
+<body ng-app="spt">
     <div id="main-wrapper">
+        <toaster-container></toaster-container>
         <div id="left"></div>
-        <div id="center"></div>
+
+        <div id="center">
+            <h1 class="title">Software Project Tracking</h1>
+
+            <div ng-view>
+            </div>
+        </div>
         <div id="right"></div>
     </div>
 </body>

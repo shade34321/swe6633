@@ -2,6 +2,8 @@ package edu.ksu.swe6633.finalproj.database;
 
 
 
+import com.mysql.jdbc.Statement;
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +15,8 @@ import java.util.List;
 public class SqlQuery {
 
     private final String query;
+
+    private PreparedStatement statement;
 
     public SqlQuery(String query) {
         this.query = query;
@@ -38,7 +42,9 @@ public class SqlQuery {
         return query(dataSource, new ResultSetMapper<T>() {
             @Override
             public T mapResultSet(ResultSet rs) throws SQLException {
-                //TODO Error handling?
+                if (!rs.next()) {
+                    throw new RuntimeException("No results");
+                }
                 return rowMapper.mapRow(rs);
             }
         });
@@ -52,6 +58,43 @@ public class SqlQuery {
         } catch (SQLException sql) {
             throw new SqlQueryException(sql);
         }
+    }
+
+    public void setStatement(DataSource dataSource) {
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(this.query, Statement.RETURN_GENERATED_KEYS)) {
+            this.statement = stmt;
+        } catch (SQLException sql) {
+            throw new SqlQueryException(sql);
+        }
+    }
+
+    public void setString(int colIndex, String value) {
+        if (this.statement == null) {
+            throw new RuntimeException("Statement not prepared!");
+        }
+        try {
+            this.statement.setString(colIndex, value);
+        } catch (SQLException e) {
+            throw new SqlQueryException(e);
+        }
+    }
+
+    public Integer execute() {
+        if (this.statement == null) {
+            throw new RuntimeException("Statement not prepared!");
+        }
+
+        try {
+            this.statement.executeUpdate();
+            ResultSet rs = this.statement.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new SqlQueryException(e);
+        }
+        return null;
     }
 
 }

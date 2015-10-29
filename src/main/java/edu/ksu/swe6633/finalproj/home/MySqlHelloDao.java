@@ -25,8 +25,6 @@ public class MySqlHelloDao implements HelloDao {
 
     @Override
     public HelloWorldMessage test() {
-        Statement statement = null;
-
         SqlQuery query = new SqlQuery(
             "select hw.helloId," +
             "       hw.message" +

@@ -1,0 +1,68 @@
+<h2>Create a New Project</h2>
+
+<button class="btn" ng-enabled="projectForm.$valid" ng-click="create()">Create</button>
+<a href="#/home" class="btn">Cancel</a>
+
+<form name="projectForm">
+    <div class="project-name">
+        <label for="proj-name">Name</label>
+        <input id="proj-name" ng-required ng-model="project.name"/>
+    </div>
+
+    <div class="project-description">
+        <label for="description">Project Description</label>
+        <textarea id="description" ng-required ng-model="project.description"></textarea>
+    </div>
+
+    <div class="assign-manager">
+        <label for="manager">Assign Manager</label>
+        <select id="manager"
+                ng-model="project.manager"
+                ng-required
+                ng-options="availableManager as availableManager.fullName for availableManager in availableMembers | filter:{memberRole: 'MANAGER'}">
+            <option value="">Available Managers</option>
+        </select>
+    </div>
+
+    <div class="assign-members">
+        <h3>Assign Team Members</h3>
+        <ul>
+            <li ng-repeat="member in project.members">
+                {{member.fullName}}&nbsp;
+                <a ng-click="unassignMember(member)">X</a>
+            </li>
+        </ul>
+        <div class="available-members">
+            <select ng-model="memberToAdd"
+                    ng-options="availableMember as availableMember.fullName for availableMember in availableMembers">
+                <option value="">Available Members</option>
+            </select>
+            <button class="btn" ng-disabled="!memberToAdd" ng-click="assignMember(memberToAdd)">Assign</button>
+        </div>
+    </div>
+
+    <div class="risks">
+        <h3>Risks</h3>
+        <div ng-show="!isAddingRisk">
+            <ul>
+                <li ng-repeat="risk in project.risks">{{risk.description}}</li>
+            </ul>
+        </div>
+
+
+        <div ng-show="isAddingRisk">
+            <label for="add-risk-description">Risk Description</label>
+            <textarea id="add-risk-description" ng-required ng-model="riskToAdd.description"></textarea>
+
+            <label for="add-risk-status">Risk Status</label>
+            <select id="add-risk-status" ng-model="riskToAdd.status">
+                <option value="">Risk Status</option>
+                <option value="UNLIKELY">Unlikely</option>
+                <option value="LIKELY">Likely</option>
+                <option value="IMMINENT">Imminent</option>
+            </select>
+        </div>
+
+        <button class="btn" ng-click="addRisk()">Add Risk</button>
+    </div>
+</form>
